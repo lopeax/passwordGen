@@ -28,10 +28,10 @@ echo $passwordGen->password();
 ```
 
 ## Character Groups
-| Group               | Var                        | Letter |
-|---------------------|----------------------------|--------|
-| LOWERCASELETTERS    | abcdefghijklmnopqrstuvwxyz | l      |
-| UPPERCASELETTERS    | ABCDEFGHIJKLMNOPQRSTUVWXYZ | u      |
-| NUMBERS             | 1234567890                 | n      |
-| SPECIALCHARACTERS   | !@#$%&*?,./\|[]{}()        | s      |
-| WHITESPACE          | ' '                        | w      |
+| Group               | Var                          | Letter |
+|---------------------|------------------------------|--------|
+| LOWERCASELETTERS    | 'abcdefghijklmnopqrstuvwxyz' | l      |
+| UPPERCASELETTERS    | 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' | u      |
+| NUMBERS             | '1234567890'                 | n      |
+| SPECIALCHARACTERS   | '!@#$%&*?,./\|[]{}()'        | s      |
+| WHITESPACE          | ' '                          | w      |
