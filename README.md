@@ -35,3 +35,6 @@ echo $passwordGen->password();
 | NUMBERS             | '1234567890'                 | n      |
 | SPECIALCHARACTERS   | '!@#$%&*?,./\|[]{}()'        | s      |
 | WHITESPACE          | ' '                          | w      |
+
+## TODO
+* Make this into a package and set dependencies
