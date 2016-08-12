@@ -2,6 +2,12 @@
 
 A simple class for password generation
 
+## Installation - Composer
+This class is available as a package using composer, just run
+```bash
+composer require lopeax/passwordgen
+```
+
 ## Usage
 ### Basic
 ```php
