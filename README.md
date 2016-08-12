@@ -28,7 +28,7 @@ echo $passwordGen->password();
 ```
 
 ## Character Groups
-| Group               | Var                          | Letter |
+| Group               | Variable                     | Letter |
 |---------------------|------------------------------|--------|
 | LOWERCASELETTERS    | 'abcdefghijklmnopqrstuvwxyz' | l      |
 | UPPERCASELETTERS    | 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' | u      |
