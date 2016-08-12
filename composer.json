@@ -16,7 +16,7 @@
     "version": "1.0.0",
     "type": "library",
     "require": {
-        "paragonie/random_compat": "^2.0"
+        "paragonie/random_compat": ">=1.4.1"
     },
     "autoload": {
         "psr-0": {
