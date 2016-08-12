@@ -1,13 +1,19 @@
 {
     "name": "lopeax/passwordgen",
     "description": "A simple password generation class",
+    "keywords": [
+        "random",
+        "pseudorandom",
+        "password",
+        "generation"
+    ],
     "authors": [
         {
             "name": "Tony Lopez",
             "email": "antoniolopezhernandez@hotmail.co.uk"
         }
     ],
-    "minimum-stability": "dev",
+    "version": "1.0.0",
     "type": "library",
     "require": {
         "paragonie/random_compat": "^2.0"
@@ -17,5 +23,8 @@
             "PasswordGen": "src/"
         }
     },
-    "license": "MIT"
+    "license": "MIT",
+    "suggest": {
+        "paragonie/random_compat": "The polyfill being used for php 7.0.0's random_int"
+    }
 }
