@@ -1,0 +1,21 @@
+{
+    "name": "lopeax/passwordgen",
+    "description": "A simple password generation class",
+    "authors": [
+        {
+            "name": "Tony Lopez",
+            "email": "antoniolopezhernandez@hotmail.co.uk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "type": "library",
+    "require": {
+        "paragonie/random_compat": "^2.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "PasswordGen": "src/"
+        }
+    },
+    "license": "MIT"
+}

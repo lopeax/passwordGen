@@ -6,8 +6,8 @@ namespace PasswordGen;
  Password generator class
 
  This requires random_int to be installed, which is native to PHP 7.0.0
- The polyfull for random_int can be acquired by running
- composer require paragonie/random_compat
+ The polyfull for random_int which is installed as a dependency for this
+ class (https://github.com/paragonie/random_compat)
 ==============================================================================*/
 class PasswordGen {
     /*--------------------------------------
