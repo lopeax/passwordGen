@@ -1,6 +1,6 @@
 # PasswordGen
 
-A simple class for password generation
+A simple class for cryptographically strong secure password generation
 
 ## Installation - Composer
 This class is available as a package using composer, just run
