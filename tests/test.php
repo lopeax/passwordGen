@@ -9,4 +9,4 @@ echo $passwordGen->password();
 echo '<br />';
 echo $passwordGen->setLength(24)->password();
 echo '<br />';
-echo PasswordGen::DEFAULTLENGTH;
+echo $passwordGen->setLength(24)->setKeyspace('lunsw')->password();

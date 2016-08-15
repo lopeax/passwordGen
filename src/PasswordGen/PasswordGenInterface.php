@@ -6,33 +6,27 @@ namespace PasswordGen;
  Interface for PasswordGen
 ==============================================================================*/
 interface PasswordGenInterface {
-    /*--------------------------------------
-     The minimum required length for
-     password generation
-    --------------------------------------*/
-    const MINIMUMLENGTH = 8;
-
-    /*--------------------------------------
-     The default password length
-    --------------------------------------*/
-    const DEFAULTLENGTH = 16;
-
-    /*--------------------------------------
-     The default sets to be used
-    --------------------------------------*/
-    const DEFAULTSETS = 'luns';
-
-    /*--------------------------------------
-     The groups of characters used by
-     this class to generate the keyspace
-    --------------------------------------*/
-    const LOWERCASELETTERS = 'abcdefghijklmnopqrstuvwxyz';
-    const UPPERCASELETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const NUMBERS = '1234567890';
-    const SPECIALCHARACTERS = '!@#$%&*?,./|[]{}()';
-    const WHITESPACE = ' ';
-
+    /**
+     * Set the length of the password, checking if it's an integer and
+     * higher than the minimum required length
+     *
+     * @param  int              $length     Length of the generated password
+     * @return PasswordGen      $this       The current instance of PasswordGen
+     */
     public function setLength($length);
-    public function setKeyspace($useSets);
+
+    /**
+     * Set the keyspace of the password generator using the character groups
+     *
+     * @param  string           $sets       Sets to be used for generator
+     * @return PasswordGen      $this       The current instance of PasswordGen
+     */
+    public function setKeyspace($sets);
+
+    /**
+     * Alias for generatePassword
+     *
+     * @return string           $password   The generated password
+     */
     public function password();
 }

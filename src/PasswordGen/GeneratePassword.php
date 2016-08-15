@@ -13,7 +13,7 @@ trait GeneratePassword {
      * @param  int      $length     The length of the generated password
      * @return string   $password   The generated password
      */
-    public function generatePassword($keyspace, $length){
+    private function generatePassword($keyspace, $length){
         $password = '';
         $max = mb_strlen($keyspace, '8bit') - 1;
 
