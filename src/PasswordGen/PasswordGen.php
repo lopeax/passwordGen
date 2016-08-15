@@ -2,6 +2,9 @@
 
 namespace PasswordGen;
 
+use PasswordGen\PasswordGenInterface;
+use PasswordGen\GeneratePassword;
+
 /*==============================================================================
  Password generator class
 
@@ -9,32 +12,11 @@ namespace PasswordGen;
  The polyfill for random_int which is installed as a dependency for this
  class (https://github.com/paragonie/random_compat)
 ==============================================================================*/
-class PasswordGen {
+class PasswordGen implements PasswordGenInterface {
     /*--------------------------------------
-     The minimum required length for
-     password generation
+     Use the GeneratePassword trait
     --------------------------------------*/
-    const MINIMUMLENGTH = 8;
-
-    /*--------------------------------------
-     The default password length
-    --------------------------------------*/
-    const DEFAULTLENGTH = 16;
-
-    /*--------------------------------------
-     The default sets to be used
-    --------------------------------------*/
-    const DEFAULTSETS = 'luns';
-
-    /*--------------------------------------
-     The groups of characters used by
-     this class to generate the keyspace
-    --------------------------------------*/
-    const LOWERCASELETTERS = 'abcdefghijklmnopqrstuvwxyz';
-    const UPPERCASELETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const NUMBERS = '1234567890';
-    const SPECIALCHARACTERS = '!@#$%&*?,./|[]{}()';
-    const WHITESPACE = ' ';
+    use GeneratePassword;
 
     /*--------------------------------------
      Setup of the keyspace and length vars
@@ -108,27 +90,11 @@ class PasswordGen {
     }
 
     /**
-     * Generate the password
+     * Alias for generatePassword
      *
      * @return string   $password   The generated password
      */
-    private function generatePassword(){
-        $password = '';
-        $max = mb_strlen($this->keyspace, '8bit') - 1;
-
-        for ($i=0; $i < $this->length; $i++) {
-            $password .= $this->keyspace[random_int(0, $max)];
-        }
-
-        return $password;
-    }
-
-    /**
-     * Return the password
-     *
-     * @return string $password
-     */
     public function password(){
-        return $this->generatePassword();
+        return $this->generatePassword($this->keyspace, $this->length);
     }
 }

@@ -6,5 +6,7 @@ use PasswordGen\PasswordGen;
 $passwordGen = new PasswordGen();
 
 echo $passwordGen->password();
-echo PHP_EOL;
+echo '<br />';
 echo $passwordGen->setLength(24)->password();
+echo '<br />';
+echo PasswordGen::DEFAULTLENGTH;
