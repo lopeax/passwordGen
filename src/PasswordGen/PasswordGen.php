@@ -6,7 +6,7 @@ namespace PasswordGen;
  Password generator class
 
  This requires random_int to be installed, which is native to PHP 7.0.0
- The polyfull for random_int which is installed as a dependency for this
+ The polyfill for random_int which is installed as a dependency for this
  class (https://github.com/paragonie/random_compat)
 ==============================================================================*/
 class PasswordGen {
@@ -20,6 +20,11 @@ class PasswordGen {
      The default password length
     --------------------------------------*/
     const DEFAULTLENGTH = 16;
+
+    /*--------------------------------------
+     The default sets to be used
+    --------------------------------------*/
+    const DEFAULTSETS = 'luns';
 
     /*--------------------------------------
      The groups of characters used by
@@ -39,73 +44,73 @@ class PasswordGen {
 
     /**
      * Create a new PasswordGen instance and setting the length and
-     * character groups to be used by this class
-     *
-     * @return void
+     * character groups to be used by this class via defaults
      */
-    function __construct($length = self::DEFAULTLENGTH, $useSets = 'luns'){
-        $this->length = $this->setLength($length);
-        $this->keyspace = $this->setKeyspace($useSets);
+    function __construct(){
+        $this->setLength(self::DEFAULTLENGTH);
+        $this->setKeyspace(self::DEFAULTSETS);
     }
 
     /**
      * Set the length of the password, checking if it's an integer and
      * higher than the minimum required length
      *
-     * @param  int $length
-     * @return int $length
+     * @param  int      $length     Length of the generated password
+     * @return PasswordGen
      */
-    private function setLength($length){
+    public function setLength($length = self::DEFAULTLENGTH){
         if(gettype($length) === 'integer' && $length > self::MINIMUMLENGTH){
-            return $length;
+            $this->length = $length;
         } else {
-            return self::DEFAULTLENGTH;
+            $this->length = self::DEFAULTLENGTH;
         }
+
+        return $this;
     }
 
     /**
      * Set the keyspace of the password generator using the character groups
      *
-     * @param  string $useSets
-     * @return string $keyspace
+     * @param  string   $useSets    Sets to be used for generator
+     * @return PasswordGen
      */
-    private function setKeyspace($useSets){
-        $keyspace = '';
+    public function setKeyspace($useSets = 'luns'){
+        $this->keyspace = '';
 
         if($useSets !== ''){
             if(strpos($useSets, 'l') !== false){
-                $keyspace .= self::LOWERCASELETTERS;
+                $this->keyspace .= self::LOWERCASELETTERS;
             }
 
             if(strpos($useSets, 'u') !== false){
-                $keyspace .= self::UPPERCASELETTERS;
+                $this->keyspace .= self::UPPERCASELETTERS;
             }
 
             if(strpos($useSets, 'n') !== false){
-                $keyspace .= self::NUMBERS;
+                $this->keyspace .= self::NUMBERS;
             }
 
             if(strpos($useSets, 's') !== false){
-                $keyspace .= self::SPECIALCHARACTERS;
+                $this->keyspace .= self::SPECIALCHARACTERS;
             }
 
             if(strpos($useSets, 'w') !== false){
-                $keyspace .= self::WHITESPACE;
+                $this->keyspace .= self::WHITESPACE;
             }
         } else {
-            $keyspace .= self::LOWERCASELETTERS;
-            $keyspace .= self::UPPERCASELETTERS;
-            $keyspace .= self::NUMBERS;
-            $keyspace .= self::SPECIALCHARACTERS;
+            $this->keyspace .= self::LOWERCASELETTERS;
+            $this->keyspace .= self::UPPERCASELETTERS;
+            $this->keyspace .= self::NUMBERS;
+            $this->keyspace .= self::SPECIALCHARACTERS;
         }
 
-        return $keyspace;
+        return $this;
     }
 
     /**
      * Generate the password
      *
-     * @return string $password
+     * @return string   $password   The generated password
      */
     private function generatePassword(){
         $password = '';
