@@ -24,7 +24,7 @@ interface PasswordGenInterface {
     public function setKeyspace($sets);
 
     /**
-     * Alias for generatePassword
+     * Alias for generatePassword using the current keyspace and length
      *
      * @return string           $password   The generated password
      */

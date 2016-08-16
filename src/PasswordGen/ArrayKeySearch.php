@@ -9,9 +9,9 @@ trait ArrayKeySearch {
     /**
      * Test if any elements of an array exist as keys in another array
      *
-     * @param  array    $keyspace   The needles to search for in the haystack
-     * @param  array    $length     The haystack for the needles to search
-     * @return boolean  $exists     Whether any items of the needles array exist
+     * @param  array    $needles    The needles to search for in the haystack
+     * @param  array    $haystack   The haystack for the needles to search
+     * @return boolean              Whether any items of the needles array exist
      *                              as keys in the haystack
      */
     public function arrayKeySearch($needles, $haystack){

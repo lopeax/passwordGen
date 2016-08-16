@@ -4,12 +4,13 @@ namespace PasswordGen;
 
 use PasswordGen\PasswordGenInterface;
 use PasswordGen\GeneratePassword;
+use PasswordGen\ArrayKeySearch;
 
 /*==============================================================================
  Password generator class
 
  This requires random_int to be installed, which is native to PHP 7.0.0
- The polyfill for random_int which is installed as a dependency for this
+ There is a polyfill for random_int which is installed as a dependency for this
  class (https://github.com/paragonie/random_compat)
 ==============================================================================*/
 class PasswordGen implements PasswordGenInterface {
@@ -52,12 +53,20 @@ class PasswordGen implements PasswordGenInterface {
     private $length = self::DEFAULTLENGTH;
     private $keyspace = '';
     private $characterSets = [
-        'l' => 'abcdefghijklmnopqrstuvwxyz',
-        'u' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-        'n' => '1234567890',
-        's' => '!@#$%&*?,./|[]{}()',
-        'w' => ' '
+        'l' => self::LOWERCASELETTERS,
+        'u' => self::UPPERCASELETTERS,
+        'n' => self::NUMBERS,
+        's' => self::SPECIALCHARACTERS,
+        'w' => self::WHITESPACE
     ];
+
+    /**
+     * Create a new PasswordGen instance and setting the default character
+     * groups to be used by this class
+     */
+    function __construct(){
+        $this->setKeyspace(self::DEFAULTSETS);
+    }
 
     /**
      * Set the length of the password, checking if it's an integer and
@@ -67,13 +76,6 @@ class PasswordGen implements PasswordGenInterface {
      * @return PasswordGen      $this       The current instance of PasswordGen
      */
     public function setLength($length = self::DEFAULTLENGTH){
-        /*--------------------------------------
-         Test if the $length varibale is an
-         integer and larger than the minimum
-         length allowed and reset the length
-         if these conditions are met, otherwise
-         use the defaults
-        --------------------------------------*/
         if(gettype($length) === 'integer' && $length > self::MINIMUMLENGTH){
             $this->length = $length;
         }
@@ -115,12 +117,11 @@ class PasswordGen implements PasswordGenInterface {
     }
 
     /**
-     * Alias for generatePassword
+     * Alias for generatePassword using the current keyspace and length
      *
      * @return string           $password   The generated password
      */
     public function password(){
-        $this->setKeyspace(self::DEFAULTSETS);
         return $this->generatePassword($this->keyspace, $this->length);
     }
 }
