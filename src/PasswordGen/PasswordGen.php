@@ -91,6 +91,11 @@ class PasswordGen implements PasswordGenInterface {
      */
     public function setKeyspace($sets = self::DEFAULTSETS){
         /*--------------------------------------
+         Reset the keyspace
+        --------------------------------------*/
+        $this->keyspace = '';
+
+        /*--------------------------------------
          Test if the $sets variable is a string
          and if any of the characters in it
          are in the $characterSets array's keys
