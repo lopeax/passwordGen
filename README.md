@@ -27,14 +27,19 @@ echo $passwordGen->password();
 echo $passwordGen->setLength(32)->password();
 ```
 
-### Changing the character groups
+### Changing the keyspace
 ```php
-echo $passwordGen->setKeyspace('lunsw')->password();
+echo $passwordGen->setKeyspace('abcdefghijklmnopqrstuvwxyz')->password();
 ```
 
-### Changing both length and character groups
+### Generating a keyspace
 ```php
-echo $passwordGen->setLength(32)->setKeyspace('lunsw')->password();
+echo $passwordGen->generateKeyspace('lunsw')->password();
+```
+
+### Changing length and generating keyspace
+```php
+echo $passwordGen->setLength(32)->generateKeyspace('lunsw')->password();
 ```
 Note: The two setters are independent of each other so don't need to be in order
 

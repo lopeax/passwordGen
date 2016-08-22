@@ -65,7 +65,7 @@ class PasswordGen implements PasswordGenInterface {
      * groups to be used by this class
      */
     function __construct(){
-        $this->setKeyspace(self::DEFAULTSETS);
+        $this->generateKeyspace(self::DEFAULTSETS);
     }
 
     /**
@@ -84,12 +84,29 @@ class PasswordGen implements PasswordGenInterface {
     }
 
     /**
-     * Set the keyspace of the password generator using the character groups
+     * Set the keyspace of the password generator, checking if it's set and not
+     * an empty string
+     *
+     * @param  string           $keyspace   Sets to be used for generator
+     * @return PasswordGen      $this       The current instance of PasswordGen
+     */
+    public function setKeyspace($keyspace = null){
+        if(gettype($keyspace) === 'string' && $keyspace != ''){
+            $this->keyspace = $keyspace;
+        } else {
+            $this->generateKeyspace();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Generate the keyspace of the password generator using the character groups
      *
      * @param  string           $sets       Sets to be used for generator
      * @return PasswordGen      $this       The current instance of PasswordGen
      */
-    public function setKeyspace($sets = self::DEFAULTSETS){
+    public function generateKeyspace($sets = self::DEFAULTSETS){
         /*--------------------------------------
          Reset the keyspace
         --------------------------------------*/
