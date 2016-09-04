@@ -13,7 +13,7 @@ This also comes as an npm package written in javascript, compiled with gulp as i
 
 To install it, run
 ```bash
-npm install passwordgen
+bower install passwordgen
 ```
 ## Usage
 ### Setup - PHP
