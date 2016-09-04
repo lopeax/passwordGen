@@ -11,7 +11,7 @@ class PasswordGen {
      * Create a new PasswordGen instance and setting the default character
      * groups to be used by this class
      */
-    constructor(){
+    constructor() {
         /*--------------------------------------
          Setup of the length, keyspace and
          characterSets variables
@@ -46,7 +46,7 @@ class PasswordGen {
      *
      * @return number                           The minimum password length
      */
-    get MINIMUMLENGTH(){
+    get MINIMUMLENGTH() {
         return 8;
     }
 
@@ -56,7 +56,7 @@ class PasswordGen {
      *
      * @return number                           The default password length
      */
-    get DEFAULTLENGTH(){
+    get DEFAULTLENGTH() {
         return 16;
     }
 
@@ -65,7 +65,7 @@ class PasswordGen {
      *
      * @return string                           The default sets
      */
-    get DEFAULTSETS(){
+    get DEFAULTSETS() {
         return 'luns';
     }
 
@@ -74,7 +74,7 @@ class PasswordGen {
      *
      * @return string                           All lower case letters
      */
-    get LOWERCASELETTERS(){
+    get LOWERCASELETTERS() {
         return 'abcdefghijklmnopqrstuvwxyz';
     }
 
@@ -83,7 +83,7 @@ class PasswordGen {
      *
      * @return string                           All upper case letters
      */
-    get UPPERCASELETTERS(){
+    get UPPERCASELETTERS() {
         return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     }
 
@@ -92,7 +92,7 @@ class PasswordGen {
      *
      * @return string                           All single digits
      */
-    get NUMBERS(){
+    get NUMBERS() {
         return '1234567890';
     }
 
@@ -101,7 +101,7 @@ class PasswordGen {
      *
      * @return string                           All special characters used
      */
-    get SPECIALCHARACTERS(){
+    get SPECIALCHARACTERS() {
         return '!@#$%&*?,./|[]{}()';
     }
 
@@ -110,9 +110,10 @@ class PasswordGen {
      *
      * @return string                           All whitespace characters used
      */
-    get WHITESPACE(){
+    get WHITESPACE() {
         return ' ';
     }
+
     /*--------------------------------------
      END CONSTANTS
      --------------------------------------*/
@@ -128,11 +129,11 @@ class PasswordGen {
      * @return boolean                          Whether any items of the needles
      *                                          array exist as keys in the haystack
      */
-    arrayKeySearch(needles, haystack){
+    arrayKeySearch(needles, haystack) {
         let i = 0, length = needles.length;
-        while(i < length){
-            for(let item in haystack){
-                if(needles[i] == item){
+        while (i < length) {
+            for (let item in haystack) {
+                if (needles[i] == item) {
                     return true;
                 }
             }
@@ -149,14 +150,14 @@ class PasswordGen {
      * @param  max              number          The maximum number
      * @return integer
      */
-    randomInteger(min, max){
+    randomInteger(min, max) {
         let byteArray = new Uint8Array(1);
         let crypto = window.crypto || window.msCrypto;
         crypto.getRandomValues(byteArray);
 
         let range = max - min + 1;
         let max_range = 256;
-        if (byteArray[0] >= Math.floor(max_range / range) * range){
+        if (byteArray[0] >= Math.floor(max_range / range) * range) {
             return this.randomInteger(min, max);
         }
         return min + (byteArray[0] % range);
@@ -170,7 +171,7 @@ class PasswordGen {
      * @return PasswordGen      this        The current instance of PasswordGen
      */
     setLength(value = 0) {
-        if(value === parseInt(value) && value >= this.MINIMUMLENGTH){
+        if (value === parseInt(value) && value >= this.MINIMUMLENGTH) {
             this.length = value;
         }
         return this;
@@ -183,8 +184,8 @@ class PasswordGen {
      * @param  keyspace         string      Sets to be used for generator
      * @return PasswordGen      this        The current instance of PasswordGen
      */
-    setKeyspace(keyspace = ''){
-        if(typeof keyspace === 'string' && keyspace != ''){
+    setKeyspace(keyspace = '') {
+        if (typeof keyspace === 'string' && keyspace != '') {
             this.keyspace = keyspace;
         }
         return this;
@@ -197,7 +198,7 @@ class PasswordGen {
      * @param  sets             string      Sets to be used for generator
      * @return PasswordGen      this        The current instance of PasswordGen
      */
-    generateKeyspace(sets = this.DEFAULTSETS){
+    generateKeyspace(sets = this.DEFAULTSETS) {
         this.keyspace = '';
 
         /*--------------------------------------
@@ -205,20 +206,20 @@ class PasswordGen {
          and if any of the characters in it
          are in the characterSets array's keys
          --------------------------------------*/
-        if(
+        if (
             typeof sets === 'string'
             &&
             this.arrayKeySearch(sets, this.characterSets)
-        ){
+        ) {
             /*--------------------------------------
              Split the sets string on every
              character and loop through them
              --------------------------------------*/
-            for(let set in sets.split('')){
+            for (let set in sets.split('')) {
                 this.keyspace += this.characterSets[sets[set]];
             }
         } else {
-            for(let set in this.DEFAULTSETS.split('')){
+            for (let set in this.DEFAULTSETS.split('')) {
                 this.keyspace += this.characterSets[this.DEFAULTSETS[set]];
             }
         }
@@ -234,7 +235,7 @@ class PasswordGen {
      */
     generatePassword() {
         let password = '';
-        for(let i = 0; i < this.length; i++){
+        for (let i = 0; i < this.length; i++) {
             password += this.keyspace.split('')[
                 this.randomInteger(0, this.keyspace.length - 1)
                 ];

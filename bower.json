@@ -1,0 +1,27 @@
+{
+  "name": "passwordGen",
+  "description": "A simple class for cryptographically strong secure password generation",
+  "main": "build/master.js",
+  "authors": [
+    "Tony Lopez <tony@zekken.rocks>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "Password",
+    "Generator",
+    "Generation",
+    "Cryptographic",
+    "Cryptograpically",
+    "Strong",
+    "Cryptographically",
+    "Secure"
+  ],
+  "homepage": "https://github.com/lopeax/passwordGen",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

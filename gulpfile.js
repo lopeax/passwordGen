@@ -9,7 +9,7 @@ var plumber = require('gulp-plumber');
 var util = require('gulp-util');
 
 var src = 'src/PasswordGenJS';
-var dest = 'dist/PasswordGenJS';
+var dest = 'build';
 
 var myPlumber = function() {
     return plumber({
