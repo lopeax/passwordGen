@@ -1,5 +1,5 @@
 {
-  "name": "passwordGen",
+  "name": "passwordgen",
   "description": "A simple class for cryptographically strong secure password generation",
   "main": "build/master.js",
   "authors": [
