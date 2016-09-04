@@ -1,0 +1,48 @@
+{
+  "name": "passwordgen",
+  "version": "1.3.0",
+  "description": "A simple cryptographically strong password generator",
+  "main": "dist/PasswordGen.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.7",
+    "run-sequence": "^1.2.2"
+  },
+  "babel": {
+    "presets": ["es2015"]
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lopeax/passwordGen.git"
+  },
+  "keywords": [
+    "Password",
+    "Generation",
+    "Cryptographic",
+    "Cryptographically",
+    "Strong",
+    "Secure"
+  ],
+  "author": "Tony Lopez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lopeax/passwordGen/issues"
+  },
+  "homepage": "https://github.com/lopeax/passwordGen#readme"
+}
