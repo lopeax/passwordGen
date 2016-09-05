@@ -26,7 +26,7 @@ gulp.task('clean:js', function() {
 
 gulp.task('js', ['clean:js'], function() {
     return gulp.src([
-        src + '/*.js'
+        src + '/*.es6'
     ], {
         base: '.'
     }).pipe(babel())

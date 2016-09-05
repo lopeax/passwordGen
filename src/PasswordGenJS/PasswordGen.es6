@@ -19,7 +19,7 @@ class PasswordGen {
          Setup of the length and keyspace
          variables
          --------------------------------------*/
-        this.length = this.DEFAULTLENGTH;
+        this.length = this.constructor.DEFAULTLENGTH;
         this.keyspace = '';
 
         /*--------------------------------------
@@ -42,7 +42,7 @@ class PasswordGen {
      *
      * @return number                           The minimum password length
      */
-    get MINIMUMLENGTH() {
+    static get MINIMUMLENGTH() {
         return 8;
     }
 
@@ -52,7 +52,7 @@ class PasswordGen {
      *
      * @return number                           The maximum random integer
      */
-    get MAXIMUMRANDOMINTEGER() {
+    static get MAXIMUMRANDOMINTEGER() {
         return 256;
     }
 
@@ -62,7 +62,7 @@ class PasswordGen {
      *
      * @return number                           The default password length
      */
-    get DEFAULTLENGTH() {
+    static get DEFAULTLENGTH() {
         return 16;
     }
 
@@ -71,7 +71,7 @@ class PasswordGen {
      *
      * @return string                           The default sets
      */
-    get DEFAULTSETS() {
+    static get DEFAULTSETS() {
         return 'luns';
     }
 
@@ -80,7 +80,7 @@ class PasswordGen {
      *
      * @return string                           All lower case letters
      */
-    get LOWERCASELETTERS() {
+    static get LOWERCASELETTERS() {
         return 'abcdefghijklmnopqrstuvwxyz';
     }
 
@@ -89,7 +89,7 @@ class PasswordGen {
      *
      * @return string                           All upper case letters
      */
-    get UPPERCASELETTERS() {
+    static get UPPERCASELETTERS() {
         return 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     }
 
@@ -98,7 +98,7 @@ class PasswordGen {
      *
      * @return string                           All single digits
      */
-    get NUMBERS() {
+    static get NUMBERS() {
         return '1234567890';
     }
 
@@ -107,7 +107,7 @@ class PasswordGen {
      *
      * @return string                           All special characters used
      */
-    get SPECIALCHARACTERS() {
+    static get SPECIALCHARACTERS() {
         return '!@#$%&*?,./|[]{}()';
     }
 
@@ -116,7 +116,7 @@ class PasswordGen {
      *
      * @return string                           All whitespace characters used
      */
-    get WHITESPACE() {
+    static get WHITESPACE() {
         return ' ';
     }
 
@@ -125,7 +125,7 @@ class PasswordGen {
      *
      * @return string                           All whitespace characters used
      */
-    get CHARACTERSETS() {
+    static get CHARACTERSETS() {
         return {
             'l': this.LOWERCASELETTERS,
             'u': this.UPPERCASELETTERS,
@@ -140,30 +140,6 @@ class PasswordGen {
      --------------------------------------*/
 
     /**
-     * Return an error message if a variable is too large
-     *
-     * @param  variable         string          The variable that's too large
-     * @return string                           The error message
-     */
-    errorTooLarge(variable) {
-        return `Sorry the ${variable} is too large\n` +
-            `The maximum size is ${this.MAXIMUMRANDOMINTEGER}\n` +
-            `The default ${variable} is currently being used`;
-    }
-
-    /**
-     * Return an error message if a variable is too long
-     *
-     * @param  variable         string          The variable that's too long
-     * @return string                           The error message
-     */
-    errorTooLong(variable) {
-        return `Sorry the ${variable} is too long\n` +
-            `The maximum length is ${this.MAXIMUMRANDOMINTEGER} characters\n` +
-            `The default ${variable} is currently being used`;
-    }
-
-    /**
      * Test if any elements of an array exist as keys in another array
      *
      * @param  needles          array           The needles to search for
@@ -171,7 +147,7 @@ class PasswordGen {
      * @return boolean                          Whether any needles exist as
      *                                          array keys in the haystack
      */
-    arrayKeySearch(needles, haystack) {
+    static arrayKeySearch(needles, haystack) {
         let i = 0, length = needles.length;
         while (i < length) {
             for (let item in haystack) {
@@ -184,7 +160,6 @@ class PasswordGen {
         return false;
     }
 
-
     /**
      * Generate a cryptographically strong random number between two values
      *
@@ -192,25 +167,50 @@ class PasswordGen {
      * @param  max              number          The maximum number
      * @return integer
      */
-    randomInteger(min = 0, max = this.MAXIMUMRANDOMINTEGER) {
+    static randomInteger(min, max) {
         try {
-            if(max < this.MAXIMUMRANDOMINTEGER){
+            if(max < 256){
                 let crypto = window.crypto || window.msCrypto;
                 let byteArray = new Uint8Array(1);
                 crypto.getRandomValues(byteArray);
 
                 let range = max - min + 1;
-                let max_range = this.MAXIMUMRANDOMINTEGER;
+                let max_range = 256;
                 if (byteArray[0] >= Math.floor(max_range / range) * range) {
                     return this.randomInteger(min, max);
                 }
                 return min + (byteArray[0] % range);
             } else {
-                throw this.errorTooLarge('maximum');
+                throw `Sorry the maximum is too large\n` +
+                      `The maximum size is 256\n`;
             }
         } catch(e) {
             console.log(e);
         }
+    }
+
+    /**
+     * Return an error message if a variable is too large
+     *
+     * @param  variable         string          The variable that's too large
+     * @return string                           The error message
+     */
+    errorTooLarge(variable) {
+        return `Sorry the ${variable} is too large\n` +
+            `The maximum size is ${this.constructor.MAXIMUMRANDOMINTEGER}\n` +
+            `The default ${variable} is currently being used`;
+    }
+
+    /**
+     * Return an error message if a variable is too long
+     *
+     * @param  variable         string          The variable that's too long
+     * @return string                           The error message
+     */
+    errorTooLong(variable) {
+        return `Sorry the ${variable} is too long\n` +
+            `The maximum length is ${this.constructor.MAXIMUMRANDOMINTEGER} characters\n` +
+            `The default ${variable} is currently being used`;
     }
 
     /**
@@ -221,7 +221,11 @@ class PasswordGen {
      * @return PasswordGen      this        The current instance of PasswordGen
      */
     setLength(value = 0) {
-        if (value === parseInt(value) && value >= this.MINIMUMLENGTH) {
+        if (
+            value === parseInt(value)
+                &&
+            value >= this.constructor.MINIMUMLENGTH
+        ) {
             this.length = value;
         }
         return this;
@@ -236,7 +240,7 @@ class PasswordGen {
      */
     setKeyspace(keyspace = '') {
         if (typeof keyspace === 'string' && keyspace != '') {
-            if(keyspace.length < this.MAXIMUMRANDOMINTEGER){
+            if(keyspace.length < this.constructor.MAXIMUMRANDOMINTEGER){
                 this.keyspace = keyspace;
             } else {
                 console.log(this.errorTooLong('keyspace'));
@@ -252,7 +256,7 @@ class PasswordGen {
      * @param  sets             string      Sets to be used for generator
      * @return PasswordGen      this        The current instance of PasswordGen
      */
-    generateKeyspace(sets = this.DEFAULTSETS) {
+    generateKeyspace(sets = this.constructor.DEFAULTSETS) {
         this.keyspace = '';
 
         /*--------------------------------------
@@ -263,22 +267,28 @@ class PasswordGen {
         if (
             typeof sets === 'string'
             &&
-            this.arrayKeySearch(sets, this.CHARACTERSETS)
+            this.constructor.arrayKeySearch(
+                sets, this.constructor.CHARACTERSETS
+            )
         ) {
             /*--------------------------------------
              Split the sets string on every
              character and loop through them
              --------------------------------------*/
             for (let set in sets.split('')) {
-                this.keyspace += this.CHARACTERSETS[sets[set]];
+                this.keyspace += this.constructor.CHARACTERSETS[
+                    sets[set]
+                ];
             }
         } else {
-            for (let set in this.DEFAULTSETS.split('')) {
-                this.keyspace += this.CHARACTERSETS[this.DEFAULTSETS[set]];
+            for (let set in this.constructor.DEFAULTSETS.split('')) {
+                this.keyspace += this.constructor.CHARACTERSETS[
+                    this.constructor.DEFAULTSETS[set]
+                ];
             }
         }
 
-        if(this.keyspace.length > this.MAXIMUMRANDOMINTEGER){
+        if(this.keyspace.length > this.constructor.MAXIMUMRANDOMINTEGER){
             console.log(this.errorTooLong('keyspace'));
             this.generateKeyspace();
         }
@@ -296,7 +306,7 @@ class PasswordGen {
         let password = '';
         for (let i = 0; i < this.length; i++) {
             password += this.keyspace.split('')[
-                this.randomInteger(0, this.keyspace.length - 1)
+                this.constructor.randomInteger(0, this.keyspace.length - 1)
             ];
         }
         return password;
