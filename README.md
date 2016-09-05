@@ -78,7 +78,7 @@ echo $passwordGen->setLength(32)->generateKeyspace('lunsw')->password();
 console.log(new PasswordGen().setLength(32).generateKeyspace('lunsw').password);
 ```
 Note: The two setters are independent of each other so don't need to be in order
-Note 2: Since the javascript version utilizes static getters, you can simply use `PasswordGen.CHARACTERSETS` in order to see what the properties of the class are.
+Note 2: Since the javascript version utilizes static getters, you can simply use (as an example to see the character sets used in the generator) `PasswordGen.CHARACTERSETS` in order to see what the properties of the class are.
 You can also use `PasswordGen.arrayKeySearch(needles, haystack)` and `PasswordGen.randomInteger(min, max)`
 
 ## Character Groups
