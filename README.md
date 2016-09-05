@@ -9,7 +9,7 @@ composer require lopeax/passwordgen
 ```
 
 ### Javascript
-This also comes as an npm package written in javascript, compiled with gulp as it uses ES2015 for a class structure and thusly has almost exactly the same usage
+This also comes as an bower package written in javascript, compiled with gulp as it uses ES2015 for a class structure and thusly has almost exactly the same usage
 
 To install it, run
 ```bash
