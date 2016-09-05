@@ -16,7 +16,8 @@ To install it, run
 bower install passwordgen
 ```
 ## Usage
-### Setup - PHP
+### Setup
+#### PHP
 ```php
 // Require the autoloader
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -24,6 +25,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use PasswordGen\PasswordGen;
 $passwordGen = new PasswordGen();
 ```
+#### Javascript
+Simply add the [build/master.js](build/master.js) file to your build tool or add the file directly into your html and it will be ready to be used as below
+
 ### Basic
 #### PHP
 ```php

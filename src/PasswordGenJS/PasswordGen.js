@@ -5,7 +5,10 @@
  https://github.com/lopeax/passwordGen
 
  This is written in ES2015 so requires a transpiler such as babel to compile
- ==============================================================================*/
+
+ This does not rely on any outside libraries apart from the window.crypto
+ object, and has browser support for at least IE11+
+ =============================================================================*/
 class PasswordGen {
     /**
      * Create a new PasswordGen instance and setting the default character
@@ -13,18 +16,11 @@ class PasswordGen {
      */
     constructor() {
         /*--------------------------------------
-         Setup of the length, keyspace and
-         characterSets variables
+         Setup of the length and keyspace
+         variables
          --------------------------------------*/
         this.length = this.DEFAULTLENGTH;
         this.keyspace = '';
-        this.characterSets = {
-            'l': this.LOWERCASELETTERS,
-            'u': this.UPPERCASELETTERS,
-            'n': this.NUMBERS,
-            's': this.SPECIALCHARACTERS,
-            'w': this.WHITESPACE
-        };
 
         /*--------------------------------------
          Setup the keyspace
@@ -48,6 +44,16 @@ class PasswordGen {
      */
     get MINIMUMLENGTH() {
         return 8;
+    }
+
+    /**
+     * Getter for MAXIMUMRANDOMINTEGER class variable for the maximum limit of
+     * random integer
+     *
+     * @return number                           The maximum random integer
+     */
+    get MAXIMUMRANDOMINTEGER() {
+        return 256;
     }
 
     /**
@@ -114,20 +120,56 @@ class PasswordGen {
         return ' ';
     }
 
+    /**
+     * Getter for WHITESPACE set used in generating the keyspace
+     *
+     * @return string                           All whitespace characters used
+     */
+    get CHARACTERSETS() {
+        return {
+            'l': this.LOWERCASELETTERS,
+            'u': this.UPPERCASELETTERS,
+            'n': this.NUMBERS,
+            's': this.SPECIALCHARACTERS,
+            'w': this.WHITESPACE
+        };
+    }
+
     /*--------------------------------------
      END CONSTANTS
      --------------------------------------*/
 
+    /**
+     * Return an error message if a variable is too large
+     *
+     * @param  variable         string          The variable that's too large
+     * @return string                           The error message
+     */
+    errorTooLarge(variable) {
+        return `Sorry the ${variable} is too large\n` +
+            `The maximum size is ${this.MAXIMUMRANDOMINTEGER}\n` +
+            `The default ${variable} is currently being used`;
+    }
+
+    /**
+     * Return an error message if a variable is too long
+     *
+     * @param  variable         string          The variable that's too long
+     * @return string                           The error message
+     */
+    errorTooLong(variable) {
+        return `Sorry the ${variable} is too long\n` +
+            `The maximum length is ${this.MAXIMUMRANDOMINTEGER} characters\n` +
+            `The default ${variable} is currently being used`;
+    }
 
     /**
      * Test if any elements of an array exist as keys in another array
      *
-     * @param  needles          array           The needles to search for in the
-     *                                          haystack
-     * @param  haystack         array           The haystack for the needles to
-     *                                          search
-     * @return boolean                          Whether any items of the needles
-     *                                          array exist as keys in the haystack
+     * @param  needles          array           The needles to search for
+     * @param  haystack         array           The haystack to search
+     * @return boolean                          Whether any needles exist as
+     *                                          array keys in the haystack
      */
     arrayKeySearch(needles, haystack) {
         let i = 0, length = needles.length;
@@ -150,17 +192,25 @@ class PasswordGen {
      * @param  max              number          The maximum number
      * @return integer
      */
-    randomInteger(min, max) {
-        let byteArray = new Uint8Array(1);
-        let crypto = window.crypto || window.msCrypto;
-        crypto.getRandomValues(byteArray);
+    randomInteger(min = 0, max = this.MAXIMUMRANDOMINTEGER) {
+        try {
+            if(max < this.MAXIMUMRANDOMINTEGER){
+                let crypto = window.crypto || window.msCrypto;
+                let byteArray = new Uint8Array(1);
+                crypto.getRandomValues(byteArray);
 
-        let range = max - min + 1;
-        let max_range = 256;
-        if (byteArray[0] >= Math.floor(max_range / range) * range) {
-            return this.randomInteger(min, max);
+                let range = max - min + 1;
+                let max_range = this.MAXIMUMRANDOMINTEGER;
+                if (byteArray[0] >= Math.floor(max_range / range) * range) {
+                    return this.randomInteger(min, max);
+                }
+                return min + (byteArray[0] % range);
+            } else {
+                throw this.errorTooLarge('maximum');
+            }
+        } catch(e) {
+            console.log(e);
         }
-        return min + (byteArray[0] % range);
     }
 
     /**
@@ -186,7 +236,11 @@ class PasswordGen {
      */
     setKeyspace(keyspace = '') {
         if (typeof keyspace === 'string' && keyspace != '') {
-            this.keyspace = keyspace;
+            if(keyspace.length < this.MAXIMUMRANDOMINTEGER){
+                this.keyspace = keyspace;
+            } else {
+                console.log(this.errorTooLong('keyspace'));
+            }
         }
         return this;
     }
@@ -204,24 +258,29 @@ class PasswordGen {
         /*--------------------------------------
          Test if the sets variable is a string
          and if any of the characters in it
-         are in the characterSets array's keys
+         are in the CHARACTERSETS array's keys
          --------------------------------------*/
         if (
             typeof sets === 'string'
             &&
-            this.arrayKeySearch(sets, this.characterSets)
+            this.arrayKeySearch(sets, this.CHARACTERSETS)
         ) {
             /*--------------------------------------
              Split the sets string on every
              character and loop through them
              --------------------------------------*/
             for (let set in sets.split('')) {
-                this.keyspace += this.characterSets[sets[set]];
+                this.keyspace += this.CHARACTERSETS[sets[set]];
             }
         } else {
             for (let set in this.DEFAULTSETS.split('')) {
-                this.keyspace += this.characterSets[this.DEFAULTSETS[set]];
+                this.keyspace += this.CHARACTERSETS[this.DEFAULTSETS[set]];
             }
+        }
+
+        if(this.keyspace.length > this.MAXIMUMRANDOMINTEGER){
+            console.log(this.errorTooLong('keyspace'));
+            this.generateKeyspace();
         }
 
         return this;
@@ -238,7 +297,7 @@ class PasswordGen {
         for (let i = 0; i < this.length; i++) {
             password += this.keyspace.split('')[
                 this.randomInteger(0, this.keyspace.length - 1)
-                ];
+            ];
         }
         return password;
     }
