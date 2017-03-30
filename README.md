@@ -5,7 +5,7 @@ A simple class for cryptographically strong secure password generation
 ## Installation - Composer
 This class is available as a package using composer, just run
 ```bash
-composer require lopeax/passwordgen
+composer require zeraphie/passwordgen
 ```
 
 ### Javascript
