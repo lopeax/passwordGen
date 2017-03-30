@@ -16,7 +16,7 @@
     "Cryptographically",
     "Secure"
   ],
-  "homepage": "https://github.com/lopeax/passwordGen",
+  "homepage": "https://github.com/zeraphie/passwordGen",
   "ignore": [
     "**/.*",
     "node_modules",
