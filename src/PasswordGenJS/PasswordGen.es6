@@ -19,7 +19,7 @@ class PasswordGen {
          Setup of the length and keyspace
          variables
          --------------------------------------*/
-        this.length = this.constructor.DEFAULTLENGTH;
+        this.passwordLength = this.constructor.DEFAULTLENGTH;
         this.keyspace = '';
 
         /*--------------------------------------
@@ -151,8 +151,10 @@ class PasswordGen {
         let i = 0, length = needles.length;
         while (i < length) {
             for (let item in haystack) {
-                if (needles[i] == item) {
-                    return true;
+                if(haystack.hasOwnProperty(item)){
+                    if (needles[i] === item) {
+                        return true;
+                    }
                 }
             }
             i++;
@@ -182,7 +184,7 @@ class PasswordGen {
                 return min + (byteArray[0] % range);
             } else {
                 throw `Sorry the maximum is too large\n` +
-                      `The maximum size is 256\n`;
+                `The maximum size is 256\n`;
             }
         } catch(e) {
             console.log(e);
@@ -223,10 +225,10 @@ class PasswordGen {
     setLength(value = 0) {
         if (
             value === parseInt(value)
-                &&
+            &&
             value >= this.constructor.MINIMUMLENGTH
         ) {
-            this.length = value;
+            this.passwordLength = value;
         }
         return this;
     }
@@ -239,7 +241,7 @@ class PasswordGen {
      * @return PasswordGen      this        The current instance of PasswordGen
      */
     setKeyspace(keyspace = '') {
-        if (typeof keyspace === 'string' && keyspace != '') {
+        if (typeof keyspace === 'string' && keyspace !== '') {
             if(keyspace.length < this.constructor.MAXIMUMRANDOMINTEGER){
                 this.keyspace = keyspace;
             } else {
@@ -265,26 +267,22 @@ class PasswordGen {
          are in the CHARACTERSETS array's keys
          --------------------------------------*/
         if (
-            typeof sets === 'string'
-            &&
+            typeof sets !== 'string'
+            ||
             this.constructor.arrayKeySearch(
                 sets, this.constructor.CHARACTERSETS
             )
         ) {
-            /*--------------------------------------
-             Split the sets string on every
-             character and loop through them
-             --------------------------------------*/
-            for (let set in sets.split('')) {
-                this.keyspace += this.constructor.CHARACTERSETS[
-                    sets[set]
-                ];
-            }
-        } else {
-            for (let set in this.constructor.DEFAULTSETS.split('')) {
-                this.keyspace += this.constructor.CHARACTERSETS[
-                    this.constructor.DEFAULTSETS[set]
-                ];
+            sets = this.constructor.DEFAULTSETS;
+        }
+
+        /*--------------------------------------
+         Split the sets string on every
+         character and loop through them
+         --------------------------------------*/
+        for (let set in sets.split('')) {
+            if(sets.hasOwnProperty(set)){
+                this.keyspace += this.constructor.CHARACTERSETS[sets[set]];
             }
         }
 
@@ -304,10 +302,10 @@ class PasswordGen {
      */
     generatePassword() {
         let password = '';
-        for (let i = 0; i < this.length; i++) {
+        for (let i = 0; i < this.passwordLength; i++) {
             password += this.keyspace.split('')[
                 this.constructor.randomInteger(0, this.keyspace.length - 1)
-            ];
+                ];
         }
         return password;
     }
