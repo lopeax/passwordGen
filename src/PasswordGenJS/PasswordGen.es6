@@ -2,7 +2,7 @@
  Password generator class
 
  This is a javascript version of my PasswordGen PHP library accessible here:
- https://github.com/lopeax/passwordGen
+ https://github.com/zeraphie/passwordGen
 
  This is written in ES2015 so requires a transpiler such as babel to compile
 
@@ -149,6 +149,7 @@ class PasswordGen {
      */
     static arrayKeySearch(needles, haystack) {
         let i = 0, length = needles.length;
+        
         while (i < length) {
             for (let item in haystack) {
                 if(haystack.hasOwnProperty(item)){
@@ -157,8 +158,10 @@ class PasswordGen {
                     }
                 }
             }
+            
             i++;
         }
+        
         return false;
     }
 
@@ -178,9 +181,11 @@ class PasswordGen {
 
                 let range = max - min + 1;
                 let max_range = 256;
+                
                 if (byteArray[0] >= Math.floor(max_range / range) * range) {
                     return this.randomInteger(min, max);
                 }
+                
                 return min + (byteArray[0] % range);
             } else {
                 throw `Sorry the maximum is too large\n` +
@@ -223,13 +228,16 @@ class PasswordGen {
      * @return PasswordGen      this        The current instance of PasswordGen
      */
     setLength(value = 0) {
+        value = parseInt(value);
+        
         if (
-            value === parseInt(value)
-            &&
+            typeof value === 'number'
+                &&
             value >= this.constructor.MINIMUMLENGTH
         ) {
             this.passwordLength = value;
         }
+        
         return this;
     }
 
@@ -248,6 +256,7 @@ class PasswordGen {
                 console.log(this.errorTooLong('keyspace'));
             }
         }
+        
         return this;
     }
 
@@ -266,11 +275,12 @@ class PasswordGen {
          and if any of the characters in it
          are in the CHARACTERSETS array's keys
          --------------------------------------*/
+        // console.log(sets.split(''), this.constructor.CHARACTERSETS);
         if (
             typeof sets !== 'string'
-            ||
-            this.constructor.arrayKeySearch(
-                sets, this.constructor.CHARACTERSETS
+                ||
+            !this.constructor.arrayKeySearch(
+                sets.split(''), this.constructor.CHARACTERSETS
             )
         ) {
             sets = this.constructor.DEFAULTSETS;
@@ -302,11 +312,13 @@ class PasswordGen {
      */
     generatePassword() {
         let password = '';
+        
         for (let i = 0; i < this.passwordLength; i++) {
             password += this.keyspace.split('')[
                 this.constructor.randomInteger(0, this.keyspace.length - 1)
-                ];
+            ];
         }
+        
         return password;
     }
 
